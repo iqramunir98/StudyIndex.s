@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StudyIndex – Semester-wise study materials for university students</title>
+<meta name="description" content="Pick your degree, semester and subject. Get notes, videos, code, past papers and student-shared material in one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f6fb;--card:#fff;--ink:#14213d;--mut:#5b6580;--line:#dfe3ef;--acc:#2f5bff;--acc2:#e9eeff;--hi:#ffd84d;--r:12px;
+--f-cap:13px;--f-sm:14px;--f-md:16px;--f-lg:18px;--f-h2:26px;--f-h1:clamp(32px,5vw,46px);--ctl:42px}
+
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--f-md)/1.6 Inter,system-ui,sans-serif;text-align:left}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',Inter,sans-serif;margin:0;line-height:1.2;font-weight:700}
+h2{font-size:var(--f-h2)}h3{font-size:var(--f-lg)}h4{font-size:var(--f-md);font-family:Inter,sans-serif;font-weight:600}
+p{margin:0}a{color:var(--acc)}button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:12px;height:64px}
+.logo{font:800 22px 'Bricolage Grotesque',sans-serif;cursor:pointer;background:none;border:0;padding:0;margin-right:8px}
+.logo span{background:linear-gradient(transparent 58%,var(--hi) 58%)}
+.search{flex:1;max-width:420px;margin-left:auto}
+.search input{width:100%;height:var(--ctl);padding:0 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:var(--f-sm)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:var(--ctl);padding:0 16px;border:1px solid var(--line);background:var(--card);border-radius:10px;cursor:pointer;font-size:var(--f-sm);font-weight:500;text-decoration:none;white-space:nowrap}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}
+
+.btn:hover{border-color:var(--acc)}
+.hero{padding:56px 0 32px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:var(--f-h1);font-weight:800;max-width:16ch;letter-spacing:-.01em}
+.hero h1 mark{background:var(--hi);color:#14213d;padding:0 .1em;border-radius:4px}
+.hero p{color:var(--mut);max-width:58ch;font-size:var(--f-lg);margin:16px 0 28px}
+.picker{display:grid;grid-template-columns:1fr 1fr auto;gap:16px;align-items:end;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.picker label{display:block;font-size:var(--f-cap);color:var(--mut);margin-bottom:6px;font-weight:600}
+.picker select{width:100%;height:var(--ctl);padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+@media(max-width:760px){.picker{grid-template-columns:1fr}.search{display:none}.bar{justify-content:space-between}.logo{margin-right:auto}}
+.sec{padding:32px 0}
+.sh{display:flex;flex-direction:column;gap:4px;padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--line)}
+.sh p{color:var(--mut);font-size:var(--f-sm)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+button.card{display:flex;gap:14px;align-items:center;text-align:left;cursor:pointer;width:100%;min-height:88px}
+button.card:hover{border-color:var(--acc)}
+.card small{display:block;color:var(--mut);font-size:var(--f-sm);margin-top:2px}
+.ico{flex:0 0 48px;height:48px;display:grid;place-items:center;font-size:24px;background:var(--acc2);border-radius:10px}
+.tag{display:inline-block;font-size:var(--f-cap);font-weight:600;padding:1px 9px;border-radius:6px;background:var(--acc2);color:var(--acc);vertical-align:middle}
+.crumb{font-size:var(--f-sm);color:var(--mut);margin:20px 0 20px}.crumb a{cursor:pointer;color:var(--acc)}.crumb b{color:var(--ink);font-weight:600}
+.lay{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:start;padding-bottom:56px}
+@media(max-width:820px){.lay{grid-template-columns:1fr}}
+.side{position:sticky;top:80px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:8px}
+@media(max-width:820px){.side{position:static}}
+.side h3{font-size:var(--f-cap);padding:8px 10px;color:var(--mut);font-family:Inter,sans-serif;font-weight:600;border-bottom:1px solid var(--line);margin-bottom:6px}
+.side button{display:block;width:100%;text-align:left;background:none;border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:var(--f-sm)}
+.side button:hover{background:var(--acc2)}.side button.on{background:var(--acc);color:#fff;font-weight:600}
+
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 20px;border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;padding:10px 14px;cursor:pointer;font-size:var(--f-sm);font-weight:500;color:var(--mut)}
+.tabs button:hover{color:var(--ink)}.tabs button.on{color:var(--acc);border-bottom-color:var(--acc);font-weight:600}
+#list{display:flex;flex-direction:column;gap:12px}
+.item{display:flex;gap:16px;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.item>div:first-child{min-width:0;display:flex;flex-direction:column;gap:4px}
+.item p{color:var(--mut);font-size:var(--f-sm)}
+.item pre{background:var(--bg);padding:10px 12px;border-radius:8px;overflow:auto;font-size:var(--f-cap);max-width:100%;margin:6px 0 0}
+.acts{display:flex;gap:8px;flex-shrink:0;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.acts small{font-size:var(--f-cap);color:var(--mut)}
+@media(max-width:640px){.item{flex-direction:column;align-items:flex-start}.acts{justify-content:flex-start}}
+.stars button{background:none;border:0;cursor:pointer;font-size:18px;padding:0 1px;color:var(--line)}
+.stars button.f{color:#f5a623}
+.empty{border:1px dashed var(--line);border-radius:var(--r);padding:28px;text-align:center;color:var(--mut);font-size:var(--f-sm)}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);width:min(520px,94vw);padding:24px}
+dialog::backdrop{background:rgba(10,15,30,.55)}
+dialog h3{margin-bottom:8px}
+dialog label{display:block;font-weight:600;font-size:var(--f-sm);margin:14px 0 6px}
+dialog input,dialog select,dialog textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-size:var(--f-sm)}
+.row{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;font-size:var(--f-sm);opacity:0;transition:opacity .2s;pointer-events:none;z-index:50}
+.toast.s{opacity:1}
+footer{border-top:1px solid var(--line);padding:24px 0;color:var(--mut);font-size:var(--f-cap)}
+
+.auth{min-height:100vh;display:none;grid-template-columns:5fr 6fr}
+.ab{background:#14213d;color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:space-between;gap:32px}
+.ab .logo{color:#fff;cursor:default}
+.ab h1{font-size:var(--f-h1);font-weight:800;max-width:14ch;letter-spacing:-.01em;color:#fff}
+.ab h1 mark{background:var(--hi);color:#14213d;padding:0 .1em;border-radius:4px}
+.ab ul{list-style:none;margin:24px 0 0;padding:0;display:flex;flex-direction:column;gap:12px;color:#c9d2ee;font-size:var(--f-md)}
+.ab li{display:flex;gap:12px;align-items:center}
+.ab li i{flex:0 0 24px;height:24px;border-radius:6px;background:rgba(255,216,77,.16);color:var(--hi);display:grid;place-items:center;font-style:normal;font-size:14px;font-weight:700}
+.ab small{color:#8d99bd;font-size:var(--f-cap)}
+.af{display:grid;place-items:center;padding:32px 24px}
+.fc{width:min(420px,100%)}
+.fc h2{margin-bottom:4px}.fc .lead{color:var(--mut);font-size:var(--f-sm);margin-bottom:24px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--acc2);border-radius:10px;padding:4px;gap:4px}
+.seg button{height:36px;border:0;background:none;border-radius:8px;cursor:pointer;font-weight:500;font-size:var(--f-sm);color:var(--mut)}
+.seg button.on{background:var(--card);color:var(--ink);font-weight:600;box-shadow:0 0 0 1px var(--line)}
+.fld{margin-top:16px}
+.fld label{display:block;font-size:var(--f-sm);font-weight:600;margin-bottom:6px}
+.fld input,.fld select{width:100%;height:var(--ctl);padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:var(--f-md)}
+.fld input:focus,.fld select:focus{border-color:var(--acc)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pw{position:relative}.pw input{padding-right:64px}
+.pw button{position:absolute;right:6px;top:5px;height:32px;padding:0 10px;border:0;background:none;color:var(--acc);font-size:var(--f-sm);font-weight:600;cursor:pointer;border-radius:8px}
+.hint{font-size:var(--f-cap);color:var(--mut);margin-top:6px}
+.err{color:#c62828;font-size:var(--f-sm);margin-top:14px;min-height:20px}
+
+.fc .btn.p{width:100%;margin-top:8px;height:46px;font-size:var(--f-md)}
+.fc .note{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);color:var(--mut);font-size:var(--f-cap)}
+.uname{font-size:var(--f-sm);color:var(--mut);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:820px){.auth{grid-template-columns:1fr}.ab{padding:24px;gap:12px}.ab ul,.ab small{display:none}.ab h1{font-size:28px}.uname{display:none}}
+
+/* ===== Blue + green theme ===== */
+:root{--bg:#e6f0f5;--card:#fff;--ink:#0a2540;--mut:#4a627a;--line:#c9dae5;--acc:#1d5fd6;--acc2:#e0ecff;--hi:#2fd3a0;--grn:#10a37f;--navy:#0a2540}
+body{background:radial-gradient(900px 520px at 95% -5%,rgba(18,163,127,.18),transparent 60%),radial-gradient(800px 520px at -5% 25%,rgba(29,95,214,.16),transparent 60%),var(--bg);background-attachment:fixed}
+header.top{background:linear-gradient(90deg,#0a2540,#124a8f);border-bottom:0;box-shadow:0 2px 12px rgba(10,37,64,.18)}
+.logo{display:flex;align-items:center;gap:10px}
+header.top .logo{color:#fff}
+.logo span{background:linear-gradient(transparent 60%,rgba(47,211,160,.55) 60%)}
+header.top .btn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28);color:#fff}
+header.top .btn:hover{background:rgba(255,255,255,.2)}
+header.top .btn.p{background:var(--grn);border-color:var(--grn);color:#fff}
+header.top .search input{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.28);color:#fff}
+header.top .search input::placeholder{color:#b9cde3}
+header.top :focus-visible{outline-color:#fff}
+.uname{color:#c9daf0}
+.hero{margin-top:24px;padding:44px 40px 36px;border:0;border-radius:20px;color:#fff;position:relative;overflow:hidden;background:linear-gradient(135deg,#0a2540 0%,#12559f 55%,#0e9a7c 100%);box-shadow:0 14px 34px rgba(10,37,64,.22)}
+.hero>*:not(.fx){position:relative;z-index:1}
+.hero h1{font:italic 500 clamp(26px,3.6vw,38px)/1.25 'Playfair Display',Georgia,serif;letter-spacing:0;max-width:24ch;color:#fff}
+.hero p{color:rgba(255,255,255,.82);font-size:var(--f-md);max-width:56ch;margin:14px 0 26px}
+.picker{border:0;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+@media(max-width:640px){.hero{padding:28px 20px}}
+.ico{background:linear-gradient(135deg,#d6e6ff,#d2f5e8)}
+button.card{border-left:4px solid var(--grn)}
+button.card:hover{border-color:var(--acc);border-left-color:var(--acc);box-shadow:0 8px 20px rgba(10,37,64,.1)}
+.sh h2{color:var(--navy)}
+.side h3{color:var(--grn)}
+.tabs button.on{color:var(--acc);border-bottom-color:var(--grn)}
+.btn.p{background:linear-gradient(135deg,#1d5fd6,#1478c8);border-color:#1d5fd6}
+.btn.p:hover{filter:brightness(1.08)}
+footer{background:var(--navy);color:#9fb4cc;border:0;margin-top:24px}
+/* auth */
+.ab{background:linear-gradient(150deg,#0a2540 0%,#12559f 60%,#0e9a7c 120%);position:relative;overflow:hidden}
+.ab>*:not(.fx){position:relative;z-index:1}
+.af{background:transparent}
+.fc{background:var(--card);padding:32px;border-radius:16px;border:1px solid var(--line);box-shadow:0 14px 34px rgba(10,37,64,.1)}
+/* floating background animation */
+.fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fx b{position:absolute;border-radius:50%;filter:blur(28px);animation:drift 14s ease-in-out infinite alternate}
+.fx b:nth-of-type(1){width:260px;height:260px;right:-60px;top:-70px;background:rgba(47,211,160,.35)}
+.fx b:nth-of-type(2){width:220px;height:220px;left:30%;bottom:-110px;background:rgba(47,123,255,.4);animation-delay:-6s}
+.fx span{position:absolute;bottom:-50px;font:italic 500 30px 'Playfair Display',Georgia,serif;color:rgba(255,255,255,.2);animation:rise linear infinite}
+.fx span:nth-of-type(1){left:5%;animation-duration:17s}
+.fx span:nth-of-type(2){left:18%;animation-duration:21s;animation-delay:-8s;font-size:24px}
+.fx span:nth-of-type(3){left:32%;animation-duration:19s;animation-delay:-3s}
+.fx span:nth-of-type(4){left:46%;animation-duration:23s;animation-delay:-12s;font-size:22px}
+.fx span:nth-of-type(5){left:60%;animation-duration:18s;animation-delay:-6s;font-size:34px}
+.fx span:nth-of-type(6){left:73%;animation-duration:22s;animation-delay:-15s;font-size:22px}
+.fx span:nth-of-type(7){left:85%;animation-duration:20s;animation-delay:-2s}
+.fx span:nth-of-type(8){left:94%;animation-duration:24s;animation-delay:-10s;font-size:26px}
+@keyframes rise{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:1}100%{transform:translateY(-520px) rotate(22deg);opacity:0}}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(-40px,30px) scale(1.15)}}
+@media(prefers-reduced-motion:reduce){.fx b,.fx span{animation:none!important}.fx span{opacity:.5;bottom:20%}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap bar">
+  <button class="logo" onclick="go('home')" aria-label="StudyIndex home"><svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f7bff"/><stop offset="1" stop-color="#12c29b"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#lg1)"/><path d="M7 9.5c3-1.2 6-1 9 .8 3-1.8 6-2 9-.8v13c-3-1.2-6-1-9 .8-3-1.8-6-2-9-.8z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 10.3v13" stroke="#fff" stroke-width="1.8"/></svg>Study<span>Index</span></button>
+  <div class="search"><input id="q" type="search" placeholder="Search subjects, topics or shared notes…" aria-label="Search"></div>
+  <button class="btn" onclick="go('saved')">Saved</button>
+  <button class="btn p" onclick="openUpload()">Share material</button>
+  <span class="uname" id="uname"></span><button class="btn" onclick="signOut()">Sign out</button>
+</div></header>
+
+<div class="auth" id="auth"></div>
+<main class="wrap" id="app"></main>
+<footer><div class="wrap">StudyIndex is a student-run index. Always check your teacher’s outline and follow your university’s rules on shared material. Shared items are saved in your browser unless the site owner connects a database.</div></footer>
+
+<dialog id="dlg"><form method="dialog" id="uform" onsubmit="return false">
+  <h3>Share study material</h3>
+  <label for="u-sub">Subject</label><select id="u-sub"></select>
+  <label for="u-top">Topic</label><select id="u-top"></select>
+  <label for="u-type">Type</label>
+  <select id="u-type"><option value="notes">Notes / study guide</option><option value="code">Code snippet</option><option value="paper">Past paper / lab solution</option><option value="video">Video</option></select>
+  <label for="u-title">Title</label><input id="u-title" required maxlength="90" placeholder="e.g. Sets & Venn diagrams – short notes">
+  <label for="u-link">Link (Google Drive, GitHub, YouTube…)</label><input id="u-link" type="url" placeholder="https://">
+  <label for="u-text">Or paste text / code</label><textarea id="u-text" rows="4"></textarea>
+  <label for="u-file">Or attach a small file (max 400 KB)</label><input id="u-file" type="file">
+  <div class="row"><button class="btn" type="button" onclick="dlg.close()">Cancel</button><button class="btn p" type="button" onclick="saveUpload()">Add to index</button></div>
+</form></dialog>
+
+<dialog id="dlg2"><form method="dialog" onsubmit="return false">
+  <h3>Add a missing subject</h3>
+  <label for="n-name">Subject name</label><input id="n-name" maxlength="60" placeholder="e.g. Technical Writing">
+  <label for="n-top">Topics (comma separated)</label><textarea id="n-top" rows="3" placeholder="Unit 1, Unit 2, Unit 3"></textarea>
+  <div class="row"><button class="btn" type="button" onclick="dlg2.close()">Cancel</button><button class="btn p" type="button" onclick="saveSubject()">Add subject</button></div>
+</form></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ---------- DATA ---------- */
+const PROGRAMS={ai:'BS Artificial Intelligence',cs:'BS Computer Science',se:'BS Software Engineering',ds:'BS Data Science'};
+const ALL=['ai','cs','se','ds'];
+const SUBJECTS=[
+{id:'pf',name:'Programming Fundamentals',ico:'💻',p:ALL,s:[1],code:1,
+ topics:['Intro to programming & C++ setup','Variables, data types & operators','Input / output','Conditions (if / switch)','Loops','Functions','Arrays','Strings','Pointers & references','File handling'],
+ res:[['Learn C++ – free tutorial','https://www.learncpp.com/','notes'],['C++ reference','https://en.cppreference.com/','notes'],['W3Schools C++ tutorial','https://www.w3schools.com/cpp/','notes'],['Harvard CS50 – intro to programming','https://cs50.harvard.edu/x/','video']]},
+{id:'ds1',name:'Discrete Structures',ico:'🧮',p:ALL,s:[1],
+ topics:['Propositional logic','Predicate logic & quantifiers','Methods of proof','Sets & set operations','Relations','Functions','Sequences & summations','Mathematical induction','Counting & combinatorics','Graphs & trees'],
+ res:[['Discrete Mathematics tutorial – GeeksforGeeks','https://www.geeksforgeeks.org/discrete-mathematics-tutorial/','notes'],['MIT OpenCourseWare – discrete math courses','https://ocw.mit.edu/search/?q=discrete+mathematics','notes'],['Trefor Bazett – Discrete Math (YouTube)','https://www.youtube.com/results?search_query=Trefor+Bazett+discrete+math','video']]},
+{id:'calc',name:'Calculus & Analytical Geometry',ico:'📈',p:ALL,s:[1],
+ topics:['Limits & continuity','Derivatives','Applications of derivatives','Integration','Applications of integration','Sequences & series','Vectors & 3D geometry','Partial derivatives'],
+ res:[['Paul’s Online Math Notes','https://tutorial.math.lamar.edu/','notes'],['Khan Academy – Calculus 1','https://www.khanacademy.org/math/calculus-1','video'],['Desmos graphing calculator','https://www.desmos.com/calculator','notes']]},
+{id:'phy',name:'Applied Physics',ico:'⚛️',p:ALL,s:[1],
+ topics:['Units & measurement','Kinematics','Newton’s laws','Work, energy & power','Electric fields','Circuits & DC theory','Magnetism','Waves & optics'],
+ res:[['Khan Academy – Physics','https://www.khanacademy.org/science/physics','video'],['PhET interactive simulations','https://phet.colorado.edu/','notes']]},
+{id:'ai1',name:'Introduction to Artificial Intelligence',ico:'🤖',p:['ai','cs','ds'],s:[1],
+ topics:['What is AI? History & applications','Intelligent agents','Search strategies','Knowledge & logic','Machine learning overview','AI ethics & society'],
+ res:[['Elements of AI – free course','https://www.elementsofai.com/','video'],['Google ML Crash Course','https://developers.google.com/machine-learning/crash-course','notes']]},
+{id:'eng',name:'Functional English',ico:'✍️',p:ALL,s:[1],
+ topics:['Grammar essentials','Vocabulary building','Paragraph & essay writing','Formal letters & emails','Reading comprehension','Presentation skills'],
+ res:[['British Council – LearnEnglish','https://learnenglish.britishcouncil.org/','notes'],['Purdue OWL writing lab','https://owl.purdue.edu/owl/purdue_owl.html','notes']]},
+{id:'isl',name:'Islamic Studies / Ideology of Pakistan',ico:'📖',p:ALL,s:[1],
+ topics:['Basic concepts','Quranic studies','Seerah of the Prophet ﷺ','Ideology of Pakistan','Pakistan Movement','Constitution of Pakistan'],res:[]},
+{id:'oop',name:'Object-Oriented Programming',ico:'🧱',p:ALL,s:[2],code:1,
+ topics:['Classes & objects','Constructors & destructors','Encapsulation','Inheritance','Polymorphism','Operator overloading','Templates','Exception handling','File I/O'],
+ res:[['Learn C++ – OOP chapters','https://www.learncpp.com/','notes'],['GeeksforGeeks – OOP in C++','https://www.geeksforgeeks.org/object-oriented-programming-in-cpp/','notes']]},
+{id:'la',name:'Linear Algebra',ico:'📐',p:ALL,s:[2],
+ topics:['Systems of linear equations','Matrices & determinants','Vector spaces','Linear independence & basis','Eigenvalues & eigenvectors','Linear transformations'],
+ res:[['3Blue1Brown – Essence of Linear Algebra','https://www.3blue1brown.com/topics/linear-algebra','video'],['Khan Academy – Linear Algebra','https://www.khanacademy.org/math/linear-algebra','video']]},
+{id:'dld',name:'Digital Logic Design',ico:'🔌',p:ALL,s:[2],
+ topics:['Number systems','Boolean algebra','Logic gates','K-maps','Combinational circuits','Flip-flops','Sequential circuits'],
+ res:[['Digital electronics – GeeksforGeeks','https://www.geeksforgeeks.org/digital-electronics-logic-design-tutorials/','notes']]},
+{id:'prob',name:'Probability & Statistics',ico:'🎲',p:ALL,s:[2,3],
+ topics:['Descriptive statistics','Probability rules','Conditional probability & Bayes','Random variables','Common distributions','Sampling & estimation','Hypothesis testing'],
+ res:[['Khan Academy – Statistics & Probability','https://www.khanacademy.org/math/statistics-probability','video']]},
+{id:'dsa',name:'Data Structures & Algorithms',ico:'🌳',p:ALL,s:[3],code:1,
+ topics:['Complexity analysis','Arrays & linked lists','Stacks & queues','Recursion','Trees & BST','Heaps','Hashing','Graphs','Sorting','Searching'],
+ res:[['VisuAlgo – visualise algorithms','https://visualgo.net/','notes'],['Data Structures – GeeksforGeeks','https://www.geeksforgeeks.org/data-structures/','notes']]},
+{id:'db',name:'Database Systems',ico:'🗄️',p:ALL,s:[3],code:1,
+ topics:['ER modelling','Relational model','SQL basics','Joins & subqueries','Normalization','Transactions','Indexing'],
+ res:[['W3Schools SQL tutorial','https://www.w3schools.com/sql/','notes'],['SQLBolt – interactive lessons','https://sqlbolt.com/','notes']]},
+{id:'coa',name:'Computer Organization & Architecture',ico:'🖥️',p:ALL,s:[3],
+ topics:['Instruction set basics','CPU datapath','Memory hierarchy & cache','I/O systems','Pipelining'],res:[]},
+{id:'os',name:'Operating Systems',ico:'⚙️',p:ALL,s:[4],
+ topics:['Processes & threads','CPU scheduling','Synchronization','Deadlocks','Memory management','Virtual memory','File systems'],
+ res:[['OSTEP – free OS textbook','https://pages.cs.wisc.edu/~remzi/OSTEP/','notes']]},
+{id:'ml',name:'Machine Learning',ico:'🧠',p:['ai','cs','ds'],s:[4,5],code:1,
+ topics:['Supervised vs unsupervised','Linear regression','Logistic regression','Decision trees','k-NN & SVM','Clustering','Model evaluation','Neural network basics'],
+ res:[['Google ML Crash Course','https://developers.google.com/machine-learning/crash-course','notes'],['scikit-learn documentation','https://scikit-learn.org/stable/','notes']]},
+{id:'algo',name:'Design & Analysis of Algorithms',ico:'🧩',p:ALL,s:[4],code:1,
+ topics:['Asymptotic notation','Divide & conquer','Greedy algorithms','Dynamic programming','Graph algorithms','NP-completeness'],res:[]},
+{id:'py',name:'Python Programming',ico:'🐍',p:['ai','ds','cs'],s:[2],code:1,
+ topics:['Syntax & data types','Control flow','Functions & modules','Lists, dicts & sets','OOP in Python','NumPy & pandas basics'],
+ res:[['Official Python tutorial','https://docs.python.org/3/tutorial/','notes']]}
+];
+const TYPES={notes:'Notes',video:'Videos',code:'Code',paper:'Past papers',community:'Shared by students'};
+
+/* ---------- STORE ---------- */
+let UID=null;const PERS=['prog','sem','saved','myrate'];
+const pk=k=>'si_'+(PERS.includes(k)&&UID?UID+'_':'')+k;
+const LS={get(k,d){try{return JSON.parse(localStorage.getItem(pk(k)))??d}catch(e){return d}},set(k,v){try{v===null?localStorage.removeItem(pk(k)):localStorage.setItem(pk(k),JSON.stringify(v))}catch(e){toast('Storage full – could not save')}}};
+let S={};const initState=()=>{S={prog:LS.get('prog','ai'),sem:+LS.get('sem',1),subj:null,topic:null,tab:'notes'}};
+const uploads=()=>LS.get('uploads',[]), customs=()=>LS.get('customs',[]);
+const allSubjects=()=>SUBJECTS.concat(customs());
+const bySub=id=>allSubjects().find(x=>x.id===id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const enc=encodeURIComponent;
+const dlg=document.getElementById('dlg'),dlg2=document.getElementById('dlg2');
+let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('s');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('s'),2200)}
+const subjectsFor=(p,s)=>allSubjects().filter(x=>(x.custom?x.p==p&&x.s==s:x.p.includes(p)&&x.s.includes(+s)));
+
+/* ---------- AUTO LINKS (always work: search-based) ---------- */
+function autoLinks(sub,topic){
+  const q=(topic?topic+' ':'')+sub.name, uni='BZU Multan';
+  const L=[
+   ['notes','Search notes & PDFs: '+q,'https://www.google.com/search?q='+enc(q+' lecture notes filetype:pdf'),'Google'],
+   ['notes','Explained simply: '+q,'https://www.google.com/search?q='+enc(q+' explained examples'),'Google'],
+   ['video','Video lectures: '+q,'https://www.youtube.com/results?search_query='+enc(q+' lecture'),'YouTube'],
+   ['video','Short revision videos: '+q,'https://www.youtube.com/results?search_query='+enc(q+' revision in 10 minutes'),'YouTube'],
+   ['paper','Past papers: '+sub.name,'https://www.google.com/search?q='+enc(sub.name+' past papers '+uni+' filetype:pdf'),'Google'],
+   ['paper','Solved problems: '+q,'https://www.google.com/search?q='+enc(q+' solved problems practice questions'),'Google']];
+  if(sub.code||/program|code|python|c\+\+/i.test(sub.name))L.push(['code','Code on GitHub: '+q,'https://github.com/search?q='+enc(q)+'&type=repositories','GitHub'],['code','Practice on LeetCode / GfG: '+q,'https://www.google.com/search?q='+enc(q+' practice problems code'),'Google']);
+  return L;
+}
+
+/* ---------- ROUTER / VIEWS ---------- */
+const app=document.getElementById('app');
+function go(v,o){window.scrollTo(0,0);if(v=='home')S.subj=null;if(v=='subject'){S.subj=o.id;S.topic=null;S.tab='notes'}if(v=='saved')S.subj='__saved';if(v=='search')S.subj='__search';render()}
+function setPick(){const p=document.getElementById('pp').value,s=document.getElementById('ps').value;S.prog=p;S.sem=+s;LS.set('prog',p);LS.set('sem',+s);render()}
+function render(){S.subj=='__saved'?viewSaved():S.subj=='__search'?viewSearch():S.subj?viewSubject():viewHome()}
+
+function viewHome(){
+  const list=subjectsFor(S.prog,S.sem);
+  app.innerHTML=`<section class="hero">${FX}<h1>Everything for your semester, in one index.</h1>
+  <p>Choose your degree and semester. See every subject, topic by topic, with notes, videos, code, past papers and material shared by other students.</p>
+  <div class="picker"><div><label for="pp">Degree program</label><select id="pp" onchange="setPick()">${Object.entries(PROGRAMS).map(([k,v])=>`<option value="${k}" ${k==S.prog?'selected':''}>${v}</option>`).join('')}</select></div>
+  <div><label for="ps">Semester</label><select id="ps" onchange="setPick()">${[1,2,3,4,5,6,7,8].map(n=>`<option value="${n}" ${n==S.sem?'selected':''}>Semester ${n}</option>`).join('')}</select></div>
+  <div><button class="btn p" style="width:100%" onclick="document.getElementById('subs').scrollIntoView()">Show my ${list.length} subjects</button></div></div></section>
+  <section class="sec" id="subs"><div class="sh"><h2>${PROGRAMS[S.prog]}, Semester ${S.sem}</h2><p>Pick a subject to open its topics and materials.</p></div>
+  <div class="grid">${list.map(s=>{const n=uploads().filter(u=>u.sub==s.id).length;return `<button class="card" onclick="go('subject',{id:'${s.id}'})"><span class="ico">${s.ico||'📘'}</span><span><h3>${esc(s.name)}</h3><small>${s.topics.length} topics, ${n} shared</small></span></button>`}).join('')||'<div class="empty">No subjects listed for this semester yet.</div>'}
+  <button class="card" onclick="dlg2.showModal()" style="border-style:dashed"><span class="ico">➕</span><span><h3>Add a missing subject</h3><small>Outline different? Add your own.</small></span></button></div></section>`;
+}
+
+function viewSubject(){
+  const sub=bySub(S.subj);if(!sub){S.subj=null;return render()}
+  const topic=S.topic;
+  app.innerHTML=`<div class="crumb"><a onclick="go('home')">Home</a> / ${PROGRAMS[S.prog]} / Sem ${S.sem} / <b>${esc(sub.name)}</b></div>
+  <div class="lay"><aside class="side"><h3>Topics</h3>
+  <button class="${topic==null?'on':''}" onclick="S.topic=null;render()">All topics</button>
+  ${sub.topics.map((t,i)=>`<button class="${topic===t?'on':''}" onclick="S.topic=${i};S.topic=bySub(S.subj).topics[${i}];render()">${esc(t)}</button>`).join('')}</aside>
+  <section><div class="sh"><h2>${esc(sub.name)}</h2><p>${topic?'Topic: '+esc(topic):'All topics'}</p></div>
+  <div class="tabs" role="tablist">${Object.entries(TYPES).map(([k,v])=>`<button role="tab" class="${S.tab==k?'on':''}" onclick="S.tab='${k}';render()">${v}</button>`).join('')}</div>
+  <div id="list"></div></section></div>`;
+  const out=[];
+  if(S.tab!='community'){
+    (sub.res||[]).filter(r=>r[2]==S.tab).forEach(r=>out.push(itemLink(r[0],'Recommended course resource',r[1],'rec:'+r[1],true)));
+    autoLinks(sub,topic).filter(l=>l[0]==S.tab).forEach(l=>out.push(itemLink(l[1],'Opens '+l[3]+' with this search',l[2],'auto:'+l[2])));
+  }else{
+    const mine=uploads().filter(u=>u.sub==sub.id&&(!topic||u.topic==topic)).sort((a,b)=>avg(b)-avg(a));
+    mine.forEach(u=>out.push(itemUpload(u)));
+    if(!mine.length)out.push(`<div class="empty">Nothing shared ${topic?'for this topic':'yet'}. Be the first – <a href="#" onclick="openUpload('${sub.id}');return false">share your notes</a>.</div>`);
+  }
+  if(S.tab=='paper'&&!out.length)out.push('<div class="empty">No past papers yet.</div>');
+  document.getElementById('list').innerHTML=out.join('');
+}
+const avg=u=>u.n?u.sum/u.n:0;
+const saved=()=>LS.get('saved',[]);
+function itemLink(title,desc,url,key,rec){
+  const on=saved().some(x=>x.key==key);
+  return `<div class="item"><div><h4>${esc(title)} ${rec?'<span class="tag">Recommended</span>':''}</h4><p>${esc(desc)}</p></div>
+  <div class="acts"><button class="btn" onclick="toggleSave('${esc(key)}','${esc(title).replace(/'/g,'')}','${esc(url)}')" aria-pressed="${on}">${on?'★ Saved':'☆ Save'}</button><a class="btn p" href="${esc(url)}" target="_blank" rel="noopener noreferrer" style="text-decoration:none">Open</a></div></div>`;
+}
+function itemUpload(u){
+  const my=LS.get('myrate',{})[u.id]||0;
+  let body='';
+  if(u.text)body=`<pre>${esc(u.text)}</pre>`;
+  const open=u.link?`<a class="btn p" href="${esc(u.link)}" target="_blank" rel="noopener noreferrer" style="text-decoration:none">Open</a>`:u.file?`<a class="btn p" href="${u.file}" download="${esc(u.fname)}" style="text-decoration:none">Download</a>`:'';
+  return `<div class="item"><div><h4>${esc(u.title)}</h4><p><span class="tag">${TYPES[u.type]||u.type}</span> ${esc(u.topic||'General')} · ${new Date(u.at).toLocaleDateString()}</p>${body}</div>
+  <div class="acts"><span class="stars" aria-label="Rate">${[1,2,3,4,5].map(i=>`<button class="${i<=my?'f':''}" onclick="rate('${u.id}',${i})" aria-label="${i} stars">★</button>`).join('')}</span><small>${u.n?avg(u).toFixed(1)+' ('+u.n+')':'No ratings'}</small>${open}<button class="btn" onclick="delUp('${u.id}')" aria-label="Delete">🗑</button></div></div>`;
+}
+function rate(id,v){const all=uploads(),u=all.find(x=>x.id==id),m=LS.get('myrate',{});if(m[id]){u.sum-=m[id]}else u.n++;u.sum+=v;m[id]=v;LS.set('uploads',all);LS.set('myrate',m);render()}
+function delUp(id){if(confirm('Remove this item from your index?')){LS.set('uploads',uploads().filter(u=>u.id!=id));render()}}
+function toggleSave(key,title,url){let s=saved();s.some(x=>x.key==key)?s=s.filter(x=>x.key!=key):s.push({key,title,url});LS.set('saved',s);S.subj=='__saved'?viewSaved():render();toast('Updated saved list')}
+function viewSaved(){
+  const s=saved();
+  app.innerHTML=`<div class="crumb"><a onclick="go('home')">Home</a> / Saved</div><div class="sh"><h2>Saved resources</h2><p>Your bookmarks, stored on this device.</p></div><div id="list">`+(s.map(x=>itemLink(x.title,'Saved link',x.url,x.key)).join('')||'<div class="empty">Nothing saved yet. Tap “Save” on any resource.</div>')+'</div>';
+}
+function viewSearch(){
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  const res=[];
+  allSubjects().forEach(s=>{
+    if(s.name.toLowerCase().includes(q))res.push({t:s.name,d:'Subject',sub:s.id});
+    s.topics.forEach(t=>{if(t.toLowerCase().includes(q))res.push({t:t,d:s.name,sub:s.id,topic:t})});
+  });
+  const ups=uploads().filter(u=>(u.title+' '+(u.text||'')).toLowerCase().includes(q));
+  app.innerHTML=`<div class="crumb"><a onclick="go('home')">Home</a> / Search</div><div class="sh"><h2>Results for “${esc(q)}”</h2><p>${res.length+ups.length} matches</p></div><div id="list">`+
+  res.map(r=>`<div class="item"><div><h4>${esc(r.t)}</h4><p>${esc(r.d)}</p></div><button class="btn p" onclick="go('subject',{id:'${r.sub}'});${r.topic?`S.topic=bySub('${r.sub}').topics.find(x=>x==${JSON.stringify(r.topic).replace(/"/g,'&quot;')});render()`:''}">Open</button></div>`).join('')+
+  ups.map(itemUpload).join('')+((res.length+ups.length)?'':'<div class="empty">No match. Try a shorter word.</div>')+'</div>';
+}
+document.getElementById('q').addEventListener('input',e=>{e.target.value.trim()?go('search'):go('home')});
+
+/* ---------- UPLOAD ---------- */
+function fillTopics(){const s=bySub(document.getElementById('u-sub').value);document.getElementById('u-top').innerHTML='<option value="">General</option>'+(s?s.topics.map(t=>`<option>${esc(t)}</option>`).join(''):'')}
+function openUpload(id){
+  const ss=allSubjects();
+  document.getElementById('u-sub').innerHTML=ss.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
+  document.getElementById('u-sub').value=id||S.subj&&bySub(S.subj)?.id||subjectsFor(S.prog,S.sem)[0]?.id||ss[0].id;
+  document.getElementById('u-sub').onchange=fillTopics;fillTopics();
+  if(S.topic)document.getElementById('u-top').value=S.topic;
+  dlg.showModal();
+}
+function saveUpload(){
+  const g=i=>document.getElementById(i),title=g('u-title').value.trim(),link=g('u-link').value.trim(),text=g('u-text').value.trim(),f=g('u-file').files[0];
+  if(!title)return toast('Add a title');
+  if(!link&&!text&&!f)return toast('Add a link, text or a file');
+  if(link&&!/^https?:\/\//i.test(link))return toast('Link must start with http:// or https://');
+  const base={id:'u'+Date.now(),sub:g('u-sub').value,topic:g('u-top').value,type:g('u-type').value,title,link,text,at:Date.now(),sum:0,n:0};
+  const done=extra=>{const a=uploads();a.push(Object.assign(base,extra));LS.set('uploads',a);dlg.close();g('uform').reset();S.tab='community';toast('Added to the index');go('subject',{id:base.sub});S.tab='community';render()};
+  if(f){if(f.size>400*1024)return toast('File is over 400 KB – share a Drive link instead');const r=new FileReader();r.onload=()=>done({file:r.result,fname:f.name});r.readAsDataURL(f)}else done({});
+}
+function saveSubject(){
+  const name=document.getElementById('n-name').value.trim();if(!name)return toast('Enter a subject name');
+  const topics=document.getElementById('n-top').value.split(',').map(x=>x.trim()).filter(Boolean);
+  const c=customs();c.push({id:'c'+Date.now(),name,ico:'📘',custom:1,p:S.prog,s:S.sem,topics:topics.length?topics:['General'],res:[]});
+  LS.set('customs',c);dlg2.close();toast('Subject added');render();
+}
+
+const FX=`<div class="fx" aria-hidden="true"><b></b><b></b><span>∑</span><span>{ }</span><span>π</span><span>&lt;/&gt;</span><span>∫</span><span>01</span><span>λ</span><span>≡</span></div>`;
+const LOGO=id=>`<svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f7bff"/><stop offset="1" stop-color="#12c29b"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#${id})"/><path d="M7 9.5c3-1.2 6-1 9 .8 3-1.8 6-2 9-.8v13c-3-1.2-6-1-9 .8-3-1.8-6-2-9-.8z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 10.3v13" stroke="#fff" stroke-width="1.8"/></svg>`;
+/* ---------- AUTH (accounts are stored on this device only) ---------- */
+let AM={mode:'in',via:'email',v:{}};
+async function hashPw(pw,salt){
+  try{const te=new TextEncoder(),k=await crypto.subtle.importKey('raw',te.encode(pw),'PBKDF2',false,['deriveBits']);
+  const b=await crypto.subtle.deriveBits({name:'PBKDF2',salt:te.encode(salt),iterations:100000,hash:'SHA-256'},k,256);
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+  catch(e){let h=5381;for(const c of salt+pw)h=((h<<5)+h+c.charCodeAt(0))>>>0;return 'f'+h}
+}
+function keepForm(){const f=document.getElementById('af');if(f)AM.v={name:f.elements.name?.value||'',id:f.elements.id?.value||'',prog:f.prog?.value,sem:f.sem?.value}}
+function setAuth(k,v){keepForm();AM[k]=v;viewAuth()}
+function viewAuth(){
+  document.querySelector('header.top').style.display='none';app.style.display='none';
+  const a=document.getElementById('auth'),up=AM.mode=='up',em=AM.via=='email',v=AM.v||{};
+  a.style.display='grid';
+  a.innerHTML=`<aside class="ab">${FX}<div><div class="logo">${LOGO('lg2')}Study<span>Index</span></div></div>
+   <div><h1>Your <mark>semester</mark>, organised.</h1>
+   <ul><li><i>✓</i>Subjects listed by degree and semester</li><li><i>✓</i>Notes, videos, code and past papers per topic</li><li><i>✓</i>Share and rate material with other students</li></ul></div>
+   <small>Made by students, for students.</small></aside>
+  <section class="af"><div class="fc">
+   <h2>${up?'Create your account':'Welcome back'}</h2>
+   <p class="lead">${up?'It takes less than a minute.':'Sign in to open your semester.'}</p>
+   <div class="seg" role="tablist"><button type="button" class="${up?'':'on'}" onclick="setAuth('mode','in')">Sign in</button><button type="button" class="${up?'on':''}" onclick="setAuth('mode','up')">Create account</button></div>
+   <form id="af" onsubmit="return doAuth(event)" novalidate>
+    <div class="fld"><div class="seg" role="tablist"><button type="button" class="${em?'on':''}" onclick="setAuth('via','email')">Email</button><button type="button" class="${em?'':'on'}" onclick="setAuth('via','phone')">Phone number</button></div></div>
+    ${up?`<div class="fld"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" maxlength="60" value="${esc(v.name||'')}"></div>`:''}
+    <div class="fld"><label for="id">${em?'Email address':'Phone number'}</label>
+     <input id="id" name="id" ${em?'type="email" autocomplete="email" placeholder="you@example.com"':'type="tel" autocomplete="tel" placeholder="+92 300 1234567"'} value="${esc(v.id||'')}"></div>
+    <div class="fld"><label for="pw">Password</label><div class="pw"><input id="pw" name="pw" type="password" autocomplete="${up?'new-password':'current-password'}"><button type="button" onclick="const i=document.getElementById('pw');i.type=i.type=='password'?'text':'password';this.textContent=i.type=='password'?'Show':'Hide'">Show</button></div>
+     ${up?'<p class="hint">At least 8 characters.</p>':''}</div>
+    ${up?`<div class="fld two"><div><label for="prog">Degree</label><select id="prog" name="prog">${Object.entries(PROGRAMS).map(([k,n])=>`<option value="${k}" ${k==(v.prog||'ai')?'selected':''}>${n}</option>`).join('')}</select></div>
+     <div><label for="sem">Semester</label><select id="sem" name="sem">${[1,2,3,4,5,6,7,8].map(n=>`<option value="${n}" ${n==(v.sem||1)?'selected':''}>Semester ${n}</option>`).join('')}</select></div></div>`:''}
+    <div class="err" id="aerr" role="alert"></div>
+    <button class="btn p" type="submit">${up?'Create account':'Sign in'}</button>
+   </form>
+   <p class="note">Your account is saved on this device only. Nothing is sent to a server, and passwords are stored as a scrambled hash.</p>
+  </div></section>`;
+}
+const aerr=m=>{document.getElementById('aerr').textContent=m;return false};
+async function doAuth(e){
+  e.preventDefault();const f=e.target,up=AM.mode=='up',em=AM.via=='email';
+  let id=f.elements.id.value.trim(),pw=f.pw.value;
+  if(em){if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(id))return aerr('Enter a valid email address.');id=id.toLowerCase()}
+  else{id=id.replace(/[\s()-]/g,'');if(!/^\+?\d{10,15}$/.test(id))return aerr('Enter a valid phone number, for example +923001234567.')}
+  if(!pw)return aerr('Enter your password.');
+  const users=LS.get('users',[]),u=users.find(x=>x.id==id);
+  if(up){
+    const name=f.elements.name.value.trim();
+    if(!name)return aerr('Enter your full name.');
+    if(pw.length<8)return aerr('Password must be at least 8 characters.');
+    if(u)return aerr('This '+(em?'email':'phone number')+' already has an account. Choose Sign in.');
+    const salt=Math.random().toString(36).slice(2)+Date.now().toString(36);
+    const nu={id,name,via:AM.via,salt,hash:await hashPw(pw,salt)};
+    users.push(nu);LS.set('users',users);
+    login(nu,{prog:f.prog.value,sem:+f.sem.value});
+  }else{
+    if(!u||u.hash!==await hashPw(pw,u.salt))return aerr('Incorrect '+(em?'email':'phone number')+' or password.');
+    login(u);
+  }
+}
+function login(u,start){
+  UID=u.id;LS.set('session',u.id);
+  if(start){LS.set('prog',start.prog);LS.set('sem',start.sem)}
+  initState();AM={mode:'in',via:'email',v:{}};
+  document.getElementById('auth').style.display='none';document.getElementById('auth').innerHTML='';
+  document.querySelector('header.top').style.display='';app.style.display='';
+  document.getElementById('uname').textContent=u.name;
+  render();window.scrollTo(0,0);
+}
+function signOut(){UID=null;LS.set('session',null);document.getElementById('q').value='';viewAuth()}
+function boot(){
+  const sid=LS.get('session',null),u=sid&&LS.get('users',[]).find(x=>x.id==sid);
+  u?login(u):viewAuth();
+}
+boot();
+</script>
+</body>
+</html>
